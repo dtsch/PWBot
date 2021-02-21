@@ -18,7 +18,7 @@ intents = discord.Intents(messages=True, reactions=True, members=True, guilds=Tr
 # bot info
 bot = commands.Bot(
     command_prefix=[secrets['prefix']]
-    , description='Bot to help Exogen players make calculations, and for mods/admins to manage the server.'
+    , description='Bot to help to stuff and test things.'
     , case_insensitive=True
     , intents=intents
 )
@@ -26,6 +26,7 @@ bot = commands.Bot(
 # gathering the commands
 cogs = [
     'cogs.chat'
+    , 'cogs.games'
     # , 'cogs.reactions'
 ]
 
@@ -62,7 +63,7 @@ async def on_member_join(member):
 async def on_raw_reaction_add(payload):
     guild = bot.get_guild(payload.guild_id)
     member = discord.utils.get(guild.members, id=payload.user_id)
-    nn = str('Comrade ' + member.name)
+    nn = str('Comrade ' + member.display_name)
 
     if payload.channel_id == 794619790861664267 and payload.message_id == 794619965788913675:
         # rules reaction role
@@ -81,58 +82,59 @@ async def on_raw_reaction_remove(payload):
     guild = bot.get_guild(payload.guild_id)
     member = discord.utils.get(guild.members, id=payload.user_id)
     # name = str(member.name)
-    nn = str(member.name).removeprefix('Comrade ')
+    nn = str(member.display_name).removeprefix('Comrade ')
     if payload.channel_id == 794619790861664267 and payload.message_id == 794619965788913675:
         # rules reaction role
         if str(payload.emoji) == '🆗':
             role = discord.utils.get(guild.roles, name="Comrade")
             await member.remove_roles(role)
-            await payload.member.edit(nick=nn)
+            await member.edit(nick=nn)
         # power club reaction role
         elif str(payload.emoji) == '🏋️':
             role = discord.utils.get(guild.roles, name="Power Club")
             await member.remove_roles(role)
 
 
-@bot.event
-@commands.has_any_role('Rear Admiral', 'Comrade')
-async def on_message(message):
-    mention = f'<@!{bot.user.id}>'
-    replies = [
-        "Yes?"
-        , "My lord?"
-        , "What is it?"
-        , "Yes my lord!"
-        , "Oh, what?"
-        , "Y-huh?"
-        , "Now what?"
-        , "More work?"
-        , "Leave me alone!"
-        , "I don't want to do this!"
-        , "Your command?"
-        , "Your orders?"
-        , "Yes, sire?"
-        , "At your service."
-        , "Your Eminence?"
-        , "Exalted one?"
-        , "My sovereign?"
-        , "Your wish?"
-        , "Ready to serve, my lord."
-        , "Your majesty?"
-        , "At your service."
-        , "Sire?"
-        , "What ho!"
-        , "Give me a quest!"
-        , "What do you want?"
-        , "Ach?"
-        , "Aye laddy."
-        , "Who summoned me?"
-        , "Do you need assistance?"
-        , "Your request?"
-    ]
-    if mention in message.content:
-        # await message.channel.send("Who summoned me?")
-        await message.channel.send(random.choice(replies))
+# @bot.event
+# @commands.has_any_role('Rear Admiral', 'Comrade')
+# async def on_message(message):
+#     mention = f'<@!{bot.user.id}>'
+#     replies = [
+#         "Yes?"
+#         , "My lord?"
+#         , "What is it?"
+#         , "Yes my lord!"
+#         , "Oh, what?"
+#         , "Y-huh?"
+#         , "Now what?"
+#         , "More work?"
+#         , "Leave me alone!"
+#         , "I don't want to do this!"
+#         , "Your command?"
+#         , "Your orders?"
+#         , "Yes, sire?"
+#         , "At your service."
+#         , "Your Eminence?"
+#         , "Exalted one?"
+#         , "My sovereign?"
+#         , "Your wish?"
+#         , "Ready to serve, my lord."
+#         , "Your majesty?"
+#         , "At your service."
+#         , "Sire?"
+#         , "What ho!"
+#         , "Give me a quest!"
+#         , "What do you want?"
+#         , "Ach?"
+#         , "Aye laddy."
+#         , "Who summoned me?"
+#         , "Do you need assistance?"
+#         , "Your request?"
+#     ]
+#     if mention in message.content:
+#         # await message.channel.send("Who summoned me?")
+#         await message.channel.send(random.choice(replies))
+#         await message.add_reaction("🥒")
 
 
 # bot start up event
