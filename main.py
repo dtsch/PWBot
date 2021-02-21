@@ -5,6 +5,7 @@ import re
 import random
 import discord
 from discord.ext import commands
+import keep_alive
 
 # grabbing the config file
 with open('config.json') as config_file:
@@ -150,6 +151,8 @@ async def on_ready():
         print(f'{cog} is ready.')
     return
 
+# run the Flask script to keep bot online
+keep_alive.keep_alive()
 
 # run bot
 bot.run(secrets['token'])
