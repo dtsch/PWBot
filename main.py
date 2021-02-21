@@ -1,36 +1,38 @@
-import asyncio
-import requests
-import json
-import re
-import random
+# import asyncio
+# import requests
+# import json
+import os
+# import re
+# import random
 import discord
 from discord.ext import commands
 import keep_alive
 
-# grabbing the config file
-with open('config.json') as config_file:
-    secrets = json.load(config_file)
+# # grabbing the config file
+# with open('config.json') as config_file:
+#     secrets = json.load(config_file)
 
+# grabbing keys
+token = os.getenv("bot_token")
 
 # intents so bot can see members from DMs
-intents = discord.Intents(messages=True, reactions=True, members=True, guilds=True, presences=True)
-
+intents = discord.Intents(messages=True,
+                          reactions=True,
+                          members=True,
+                          guilds=True,
+                          presences=True)
 
 # bot info
-bot = commands.Bot(
-    command_prefix=[secrets['prefix']]
-    , description='Bot to help to stuff and test things.'
-    , case_insensitive=True
-    , intents=intents
-)
+bot = commands.Bot(command_prefix='!',
+                   description='Bot to help to stuff and test things.',
+                   case_insensitive=True,
+                   intents=intents)
 
 # gathering the commands
 cogs = [
-    'cogs.chat'
-    , 'cogs.games'
+    'cogs.chat', 'cogs.games'
     # , 'cogs.reactions'
 ]
-
 
 # id's for testing server
 # target_server_id = 704139386501201942
@@ -48,7 +50,8 @@ async def _eval(ctx, *, code):
 @_eval.error
 async def eval_error(error, ctx):
     if isinstance(error, commands.MissingPermissions):
-        text = "Sorry {}, you do not have permissions to do that!".format(ctx.message.author)
+        text = "Sorry {}, you do not have permissions to do that!".format(
+            ctx.message.author)
         await ctx.send(ctx.message.channel, text)
 
 
@@ -56,8 +59,9 @@ async def eval_error(error, ctx):
 async def on_member_join(member):
     rules = bot.get_channel(794619790861664267)
     await member.send("Welcome, Comrade {}!".format(member.name))
-    await member.send("Please check out the {} before heading to the dank meme stash."
-                      .format(rules.mention))
+    await member.send(
+        "Please check out the {} before heading to the dank meme stash.".
+        format(rules.mention))
 
 
 @bot.event
@@ -69,12 +73,14 @@ async def on_raw_reaction_add(payload):
     if payload.channel_id == 794619790861664267 and payload.message_id == 794619965788913675:
         # rules reaction role
         if str(payload.emoji) == '🆗':
-            role = discord.utils.get(payload.member.guild.roles, name="Comrade")
+            role = discord.utils.get(payload.member.guild.roles,
+                                     name="Comrade")
             await payload.member.add_roles(role)
             await payload.member.edit(nick=nn)
         # power club reaction role
         elif str(payload.emoji) == '🏋️':
-            role = discord.utils.get(payload.member.guild.roles, name="Power Club")
+            role = discord.utils.get(payload.member.guild.roles,
+                                     name="Power Club")
             await payload.member.add_roles(role)
 
 
@@ -145,14 +151,16 @@ async def on_ready():
     print(f'Logged in as: {bot.user.name} - {bot.user.id}')
     print(f'Discord version is: {discord.__version__}')
     print('------------------------------------------------------')
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="you"))
+    await bot.change_presence(activity=discord.Activity(
+        type=discord.ActivityType.watching, name="you"))
     for cog in cogs:
         bot.load_extension(cog)
         print(f'{cog} is ready.')
     return
 
+
 # run the Flask script to keep bot online
 keep_alive.keep_alive()
 
 # run bot
-bot.run(secrets['token'])
+bot.run(token)
