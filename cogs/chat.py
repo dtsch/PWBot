@@ -88,6 +88,7 @@ class Chat(commands.Cog):
 
     @tasks.loop(hours=1)
     async def epic_check(self):
+        today = dt.datetime.today()
         # guild = self.bot.get_guild(704139386501201942)
         channel = self.bot.get_channel(705448894418518046)
         embed = discord.Embed(title="Free Games from Epic", url="https://www.epicgames.com/store/en-US/free-games",
@@ -95,7 +96,7 @@ class Chat(commands.Cog):
                                           "but it's only announcing a few games ahead of time. "
                                           "Check back here weekly for the next games announced on offer.",
                               color=discord.Color.light_gray())
-        if dt.date.weekday() == 4 and dt.date.hour() > 22:
+        if today.weekday() == 4 and today.hour() > 22:
             print("Sending Epic update.")
             await channel.send(f"Epic just dropped another free game, check it out!", embed=embed)
 
