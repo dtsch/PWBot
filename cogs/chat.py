@@ -87,8 +87,8 @@ class Chat(commands.Cog):
     #         await message.channel.send(random.choice(replies))
 
     @tasks.loop(hours=1)
-    async def epic_check(self, ctx):
-        guild = self.bot.get_guild(704139386501201942)
+    async def epic_check(self):
+        # guild = self.bot.get_guild(704139386501201942)
         channel = self.bot.get_channel(705448894418518046)
         embed = discord.Embed(title="Free Games from Epic", url="https://www.epicgames.com/store/en-US/free-games",
                               description="Epic has been giving away free games every week for a while now, "
