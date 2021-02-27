@@ -94,7 +94,7 @@ class Chat(commands.Cog):
                               description="Epic has been giving away free games every week for a while now, "
                                           "but it's only announcing a few games ahead of time. "
                                           "Check back here weekly for the next games announced on offer.",
-                              color=discord.Color.white())
+                              color=discord.Color.light_gray())
         if dt.date.weekday() == 4 and dt.date.hour() > 22:
             print("Sending Epic update.")
             await channel.send(f"Epic just dropped another free game, check it out!", embed=embed)
