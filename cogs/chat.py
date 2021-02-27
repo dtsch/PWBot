@@ -1,5 +1,6 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
+import datetime as dt
 import asyncio
 import random
 
@@ -10,6 +11,7 @@ class Chat(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.epic_check.start()
 
     # command that DMs the sender
     @commands.command(
@@ -83,6 +85,18 @@ class Chat(commands.Cog):
     #     if mention in message.content:
     #         # await message.channel.send("Who summoned me?")
     #         await message.channel.send(random.choice(replies))
+
+    @tasks.loop(hours=1)
+    async def epic_check(self, ctx):
+        guild = self.bot.get_guild(704139386501201942)
+        channel = self.bot.get_channel(705448894418518046)
+        embed = discord.Embed(title="Free Games from Epic", url="https://www.epicgames.com/store/en-US/free-games",
+                              description="Epic has been giving away free games every week for a while now, "
+                                          "but it's only announcing a few games ahead of time. "
+                                          "Check back here weekly for the next games announced on offer.",
+                              color=discord.Color.white())
+        if dt.date.weekday() == 4 and dt.date.hour() > 22:
+            await channel.send(f"Epic just dropped another free game, check it out!", embed=embed)
 
 
 def setup(bot):
