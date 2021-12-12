@@ -28,7 +28,7 @@ bot = commands.Bot(command_prefix='!',
                    description='Bot to help to stuff and test things.',
                    case_insensitive=True,
                    intents=intents)
-slash = SlashCommand(bot)
+slash = SlashCommand(bot, sync_commands=True)
 
 # gathering the commands
 cogs = [
@@ -107,7 +107,8 @@ async def on_raw_reaction_remove(payload):
 # slash command that DMs the sender
 @slash.slash(
     name='direct_message',
-    description='Initiates a DM with the user.'
+    description='Initiates a DM with the user.',
+    guild_ids=[704139386501201942]
 )
 async def _dm(ctx: SlashContext):
     await ctx.author.send("Hey, what do you need?")
