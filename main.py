@@ -6,6 +6,7 @@ import os
 # import random
 import discord
 from discord.ext import commands
+from discord_slash import SlashCommand, SlashContext
 import keep_alive
 
 # # grabbing the config file
@@ -27,6 +28,7 @@ bot = commands.Bot(command_prefix='!',
                    description='Bot to help to stuff and test things.',
                    case_insensitive=True,
                    intents=intents)
+slash = SlashCommand(bot)
 
 # gathering the commands
 cogs = [
@@ -101,6 +103,14 @@ async def on_raw_reaction_remove(payload):
             role = discord.utils.get(guild.roles, name="Power Club")
             await member.remove_roles(role)
 
+
+# slash command that DMs the sender
+@slash.slash(
+    name='direct_message',
+    description='Initiates a DM with the user.'
+)
+async def _dm(ctx: SlashContext):
+    await ctx.author.send("Hey, what do you need?")
 
 # @bot.event
 # @commands.has_any_role('Rear Admiral', 'Comrade')
