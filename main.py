@@ -110,8 +110,9 @@ async def on_raw_reaction_remove(payload):
     description='Initiates a DM with the user.',
     guild_ids=[704139386501201942]
 )
-async def _dm(ctx: SlashContext):
+async def _dm(ctx):
     await ctx.author.send("Hey, what do you need?")
+    await ctx.send("Sliding into those DMs 😏.")
 
 # @bot.event
 # @commands.has_any_role('Rear Admiral', 'Comrade')
