@@ -20,6 +20,7 @@ class Games(commands.Cog):
         pass_context=True,
         name='roll',
         help='Rolls a die/dice with modifiers.',
+        aliases=['r'],
         description='Rolls a die/dice with modifiers, specified by the user.\n'
                     'Multiple types of dice can be rolled with additional (+NdS) added to middle of the formula.\n'
                     'Advantage/disadvantage only work when rolling 1d20 (other dice and modifiers are accommodated).\n'
